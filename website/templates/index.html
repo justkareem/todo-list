@@ -1,0 +1,39 @@
+{% extends "basetemplate.html" %}
+{% block title %}Home{% endblock %}
+{% block main %}
+<h1 align="center">Tasks</h1>
+    <hr>
+    <ul class="list-group list-group-flush" id="tasks">
+        {% for task in user.tasks %}
+        {% if not task.task == None %}
+        <li class="list-group-item">
+            {{ task.task }}
+            {% set task_id = task.id %}
+            <a href="{{ url_for("views.done_task", value=task_id) }}">
+            <button type="button" class="btn-close float-end" aria-hidden="true"></button>
+            </a>
+        </li>
+            {% endif %}
+        {% endfor %}
+        {% for task in user.tasks %}
+            {% if not task.done_task == None %}
+                <li class="list-group-item">
+                <strike>{{ task.done_task }}</strike>
+                {% set task_id = task.id %}
+            <a href="{{ url_for("views.delete_task", value=task_id) }}">
+            <button type="button" class="btn-close float-end" aria-hidden="true"></button>
+            </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <br>
+
+    <form method="POST">
+    <textarea name="task" id="task" class="form-control"></textarea>
+        <br>
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Add Task</button>
+    </div>
+    </form>
+{% endblock %}
